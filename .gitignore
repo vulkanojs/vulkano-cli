@@ -54,3 +54,7 @@ dwsync.xml
 #Dockerfile
 #docker-compose.yml
 
+# Vulkano app (testing)
+/app
+/core
+

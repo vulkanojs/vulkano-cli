@@ -1,10 +1,13 @@
 {
   "name": "@vulkano/cli",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Proyecto para facilitar el uso de Vulkano",
   "main": "app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "bin": {
+    "vulkano": "bin/vulkano"
   },
   "homepage": "https://github.com/vulkanojs/vulkano-cli",
   "repository": {

@@ -1,7 +1,6 @@
 # IGNORE ALL #
 ###############
-*
-!README.md
-!package.json
-!LICENSE
-!.gitignore
+.editorconfig
+.env
+.eslintrc
+.npmignore

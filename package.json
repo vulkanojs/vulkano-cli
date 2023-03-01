@@ -1,6 +1,6 @@
 {
-  "name": "vulkano-cli",
-  "version": "1.0.0",
+  "name": "@vulkano/cli",
+  "version": "0.1.0",
   "description": "Proyecto para facilitar el uso de Vulkano",
   "main": "app.js",
   "dependencies": {
@@ -68,7 +68,7 @@
     "url": "git+https://github.com/vulkanojs/vulkano-cli.git"
   },
   "author": "@camiloborrero92",
-  "license": "ISC",
+  "license": "MIT",
   "bugs": {
     "url": "https://github.com/vulkanojs/vulkano-cli/issues"
   },

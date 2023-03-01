@@ -1,5 +1,8 @@
 # Proposal:
 
+```sh
+npm install -g @vulkano/cli
+```
 
 Creating a controller
 

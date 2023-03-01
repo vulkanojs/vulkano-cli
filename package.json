@@ -1,10 +1,14 @@
 {
   "name": "@vulkano/cli",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Proyecto para facilitar el uso de Vulkano",
-  "main": "app.js",
+  "main": "bin/vulkano",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "directories": {
+    "bin": "./bin",
+    "lib": "./lib"
   },
   "bin": {
     "vulkano": "bin/vulkano"

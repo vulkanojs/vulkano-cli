@@ -1,3 +1,7 @@
 #!/usr/bin/env node
 
+const path = require('path');
+
+global.VULKANO_PATH = path.join(__dirname, '../app');
+
 require('../lib/cli.js')(process);

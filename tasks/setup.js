@@ -1,14 +1,7 @@
-module.exports = (process) => {
+const { createFile  } = require('../lib/file');
 
+module.exports = (name, folder, content) => {
 
-  const {
-    host,
-    project,
-    env
-  } = process || {};
-
-
-  axios.get(`${host}/api/records?project=${project}&environment=${env}`)
-    .then( (result) => console.log(result) );
+  createFile(name, folder, content);
 
 };

@@ -4,8 +4,22 @@
 
  */
 // const Controller = require('./Controller');
-const { createFile } = require('../helper/file');
+const { createFile } = require('../libs/file');
 const routes = require('../helper/routesCli');
+
+const template = `
+
+module.exports = {
+
+  /* Scaffold */
+  scaffold: true,
+
+  /* Model */
+  model: ''
+
+};
+
+`;
 
 class Controllers {
   _listado = {};
@@ -35,7 +49,7 @@ class Controllers {
     // const controller = new Controller(newName);
 
     // create file
-    createFile(`${newName}.js`, routes.controllerRoute);
+    createFile(`${newName}.js`, routes.controllerRoute, template);
   }
 }
 

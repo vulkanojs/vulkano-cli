@@ -5,8 +5,21 @@
  */
 
 // const Model = require('./Model');
-const { createFile } = require('../helper/file');
+const { createFile } = require('../libs/file');
 const routes = require('../helper/routesCli');
+
+const template = `
+
+module.exports = {
+
+  /* Fields */
+  atrributes: {
+
+  }
+
+};
+
+`;
 
 class Models {
   _listado = {};
@@ -35,7 +48,7 @@ class Models {
     // const model = new Model(newName);
 
     // create file
-    createFile(`${newName}.js`, routes.modelRoute);
+    createFile(`${newName}.js`, routes.modelRoute, template);
   }
 }
 

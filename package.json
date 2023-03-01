@@ -18,6 +18,7 @@
   "bugs": {
     "url": "https://github.com/vulkanojs/vulkano-cli/issues"
   },
+  "author": "Vulkano Team",
   "license": "MIT",
   "dependencies": {
     "ansi-escapes": "^4.3.2",

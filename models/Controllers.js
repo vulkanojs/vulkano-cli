@@ -4,8 +4,8 @@
 
  */
 // const Controller = require('./Controller');
-const { createFile } = require('../lib/file');
-const routes = require('../helper/routesCli');
+const { createFile } = require('../libs/file');
+// const routes = require('../helper/routesCli');
 
 const template = `
 
@@ -49,7 +49,7 @@ class Controllers {
     // const controller = new Controller(newName);
 
     // create file
-    createFile(`${newName}.js`, routes.controllerRoute, template);
+    // createFile(`${newName}.js`, routes.controllerRoute, template);
   }
 }
 

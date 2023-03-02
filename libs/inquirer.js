@@ -15,10 +15,10 @@ const preguntas = [
         value: '2',
         name: `${'2.'.green} Create Vulkano Controller`,
       },
-      // {
-      //     value: '3',
-      //     name: `${'3.'.green} Save Record`
-      // },
+      {
+          value: '3',
+          name: `${'3.'.green} Execute Tasks`
+      },
       // {
       //     value: '4',
       //     name: `${'4.'.green} Find Record`
@@ -35,13 +35,35 @@ const preguntas = [
   },
 ];
 
-const inquirerMenu = async () => {
+/**
+ * 
+ * @param { String } message - mensaje personalizado 
+ * @param { Array } options - array de objetos con las opciones
+ * @returns Array - array de objetos
+ */
+const preguntasPersonalizadas = (message, options) => {
+  return [
+    {
+      type: 'list',
+      name: 'opcion',
+      message: message,
+      choices: options,
+    },
+  ];
+};
+
+/**
+ * 
+ * @param {Array} options - preguntas definidas 
+ * @returns 
+ */
+const inquirerMenu = async (options = preguntas) => {
   console.clear();
   console.log('==============================='.green);
   console.log('   Select one option'.white);
   console.log('===============================\n'.green);
 
-  const { opcion } = await inquirer.prompt(preguntas);
+  const { opcion } = await inquirer.prompt(options);
 
   return opcion;
 };
@@ -81,4 +103,5 @@ module.exports = {
   inquirerMenu,
   pausarMenu,
   leerInput,
+  preguntasPersonalizadas
 };

@@ -5,8 +5,8 @@
  */
 
 // const Model = require('./Model');
-const { createFile } = require('../lib/file');
-const routes = require('../helper/routesCli');
+const { createFile } = require('../libs/file');
+// const routes = require('../helper/routesCli');
 
 const template = `
 
@@ -48,7 +48,7 @@ class Models {
     // const model = new Model(newName);
 
     // create file
-    createFile(`${newName}.js`, routes.modelRoute, template);
+    // createFile(`${newName}.js`, routes.modelRoute, template);
   }
 }
 

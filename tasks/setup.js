@@ -1,4 +1,4 @@
-const { createFile  } = require('../lib/file');
+const { createFile  } = require('../libs/file');
 
 module.exports = (name, folder, content) => {
 

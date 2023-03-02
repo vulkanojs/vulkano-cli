@@ -6,4 +6,4 @@ global.VULKANO_CLI = path.join(__dirname, '..');
 global.VULKANO_APP = path.join(__dirname, '../app');
 global.VULKANO_CORE = path.join(__dirname, '../core');
 
-require('../lib/cli.js')(process);
+require('../libs/cli.js')(process);

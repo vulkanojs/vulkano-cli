@@ -1,6 +1,8 @@
 const fs = require('fs');
 const path = require('path');
 
+const { readdir } = fs.promises || {};
+
 const defaultTemplate = `
 module.exports = {
 
@@ -38,6 +40,49 @@ const createFile = (fileName, folder, content) => {
 
 };
 
+readDirectory = (props) => {
+
+  const {
+    dirname,
+    // filter,
+    // excludeDirs
+  } = props || {};
+
+  //@ TODO: excludeDir
+
+  return readdir(dirname, { withFileTypes: true })
+    .then( (result) => {
+      return result;
+    })
+    .catch( () => { // Directory does not exist
+      return Promise.resolve([]);
+    })
+    .then( (dirents) => {
+
+      return Promise
+        .all(dirents.map((dirent) => {
+
+          const res = path.resolve(dirname, dirent.name);
+
+          //@ TODO: filter
+
+          return dirent.isDirectory()
+            ? readDirectory({ ...props, dirname: res })
+            : res;
+
+        }))
+        .then( (files) => {
+
+          return Array.prototype.concat(...files).filter( (f) => f);
+
+        });
+
+    });
+
+
+};
+
 module.exports = {
   createFile,
+  readDirectory
 };

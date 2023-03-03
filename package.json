@@ -29,6 +29,7 @@
   "author": "Vulkano Team",
   "license": "MIT",
   "dependencies": {
+    "bluebird": "^3.7.2",
     "colors": "^1.4.0",
     "dotenv": "^16.0.3",
     "include-all": "^4.0.3",

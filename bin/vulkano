@@ -11,9 +11,9 @@ exec('pwd', (error, currentPath) => {
     throw new Error('Vulkano CLI: Unable to get the current directory');
   }
 
-  global.CURRENT_PATH = currentPath;
-  global.VULKANO_APP = path.join(currentPath, '../app');
-  global.VULKANO_CORE = path.join(currentPath, '../core');
+  global.CURRENT_PATH = String(currentPath).trim();
+  global.VULKANO_APP = `${CURRENT_PATH}/app`;
+  global.VULKANO_CORE = `${CURRENT_PATH}/core`;
 
   require('../libs/cli.js')(process);
 

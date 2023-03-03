@@ -22,12 +22,18 @@ module.exports = (process ) => {
     return console.log(`Error: Vulkano APP ${VULKANO_APP} is not detectet`.red);
   }
 
+  const AllCustomTasks = require('include-all')({
+    dirname: `${VULKANO_APP}/cli`,
+    filter: /(.+)\.js$/,
+    excludeDirs: /^\.(git|svn)$/,
+    optional: true
+  });
+
   const customTasks = () => {
 
     let tasks = {};
     let message = 'Select one task';
     const options = [];
-
 
     if (Object.keys(AllCustomTasks).length) {
 
@@ -61,6 +67,7 @@ module.exports = (process ) => {
     dontLoad: true
   };
 
+
   Promise
     .props({
       models: Promise.resolve( includeAll({ ...filterFiles, dirname: `${VULKANO_APP}/models` }) ),
@@ -75,9 +82,9 @@ module.exports = (process ) => {
         tasks
       } = result || {};
 
-      console.log(models);
-      console.log(controllers);
-      console.log(tasks);
+      // console.log(models);
+      // console.log(controllers);
+      // console.log(tasks);
 
       const main = async () => {
 
@@ -103,11 +110,11 @@ module.exports = (process ) => {
               break;
             case '3':
               // Tareas personalizadas
-
               const task = await inquirerMenu(customTasks());
 
               if (task !== '99') {
-                await AllCustomTasks[task].task;
+                const funtionality = await AllCustomTasks[task].task();
+                console.log(funtionality);
               }
               break;
           }

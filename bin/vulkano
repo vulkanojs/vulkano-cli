@@ -1,9 +1,22 @@
 #!/usr/bin/env node
 
 const path = require('path');
+const exec = require('child_process').exec;
 
 global.VULKANO_CLI = path.join(__dirname, '..');
-global.VULKANO_APP = path.join(__dirname, '../app');
-global.VULKANO_CORE = path.join(__dirname, '../core');
 
-require('../libs/cli.js')(process);
+exec('pwd', (error, currentPath) => {
+
+  if (error) {
+    throw new Error('Vulkano CLI: Unable to get the current directory');
+  }
+
+  global.CURRENT_PATH = currentPath;
+  global.VULKANO_APP = path.join(currentPath, '../app');
+  global.VULKANO_CORE = path.join(currentPath, '../core');
+
+  require('../libs/cli.js')(process);
+
+});
+
+

@@ -1,6 +1,11 @@
+require('colors');
+
 const Promise = require('bluebird');
 const fs = require('fs');
-require('colors');
+const includeAll = require('include-all');
+
+const Models = require('../models/Models');
+const Controllers = require('../models/Controllers');
 
 const {
   preguntasPersonalizadas,
@@ -8,11 +13,6 @@ const {
   pausarMenu,
   leerInput
 } = require('./inquirer');
-
-const Models = require('../models/Models');
-const Controllers = require('../models/Controllers');
-
-const Files = require('./file');
 
 module.exports = (process ) => {
 
@@ -54,16 +54,18 @@ module.exports = (process ) => {
     return tasks;
   };
 
-  const filter = {
+  const filterFiles = {
     filter: /(.+)\.js$/,
-    excludeDirs: /^\.(git|svn)$/
+    excludeDirs: /^\.(git|svn)$/,
+    optional: true,
+    dontLoad: true
   };
 
   Promise
     .props({
-      models: Files.readDirectory({ ...filter, dirname: `${VULKANO_APP}/models` }),
-      controllers: Files.readDirectory({ ...filter, dirname: `${VULKANO_APP}/controllers` }),
-      tasks: Files.readDirectory({ ...filter, dirname: `${VULKANO_APP}/cli` })
+      models: Promise.resolve( includeAll({ ...filterFiles, dirname: `${VULKANO_APP}/models` }) ),
+      controllers: Promise.resolve( includeAll({ ...filterFiles, dirname: `${VULKANO_APP}/controllers` }) ),
+      tasks: Promise.resolve( includeAll({ ...filterFiles, dirname: `${VULKANO_APP}/cli` }) ),
     })
     .then( (result) => {
 
@@ -73,32 +75,9 @@ module.exports = (process ) => {
         tasks
       } = result || {};
 
-      const allModels = (models || []).map( (modelName) => {
-        const file = modelName.split(`${VULKANO_APP}/models/`)[1];
-        return file.split('.js')[0];
-      });
-
-      // console.log('Models Detected:');
-      // console.log('--------------------------------');
-      // console.log(allModels);
-
-      const allControllers = (controllers || []).map( (controllerName) => {
-        const file = controllerName.split(`${VULKANO_APP}/controllers/`)[1];
-        return file.split('.js')[0];
-      });
-
-      // console.log('Controllers Detected:');
-      // console.log('--------------------------------');
-      // console.log(allControllers);
-
-      const allCustomTasks = (tasks || []).map( (taskName) => {
-        const file = taskName.split(`${VULKANO_APP}/cli/`)[1];
-        return file.split('.js')[0];
-      });
-
-      // console.log('Tasks Detected:');
-      // console.log('--------------------------------');
-      // console.log(allCustomTasks);
+      console.log(models);
+      console.log(controllers);
+      console.log(tasks);
 
       const main = async () => {
 

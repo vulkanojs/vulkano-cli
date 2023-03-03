@@ -73,7 +73,12 @@ readDirectory = (props) => {
         }))
         .then( (files) => {
 
-          return Array.prototype.concat(...files).filter( (f) => f);
+          return Array.prototype.concat(...files)
+            .filter( (f) => f)
+            .map( (f) => {
+              console.log(dirname, f);
+              return f.replace(`${dirname}/`, '')
+            });
 
         });
 

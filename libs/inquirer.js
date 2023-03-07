@@ -80,13 +80,14 @@ const pausarMenu = async () => {
   await inquirer.prompt(question);
 };
 
-const leerInput = async (message) => {
+const leerInput = async (message, type = 'input') => {
   const question = [
     {
-      type: 'input',
+      type,
       name: 'desc',
       message,
       validate(value) {
+
         if (value.length === 0) {
           return 'Please select a value';
         }

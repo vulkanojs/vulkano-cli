@@ -113,8 +113,113 @@ module.exports = (process ) => {
               const task = await inquirerMenu(customTasks());
 
               if (task !== '99') {
-                const funtionality = await AllCustomTasks[task].task();
-                console.log(funtionality);
+
+                const loginInteractive =  AllCustomTasks[task].login;
+
+                if (loginInteractive) {
+
+                  const user = await leerInput('Enter the username:');
+                  const pass = await leerInput('Enter the password:', 'password');
+  
+                  // prelogin
+                  try {
+  
+                    const login = await AllCustomTasks[task].login(user, pass);
+                    const idLogin = login.data.id;
+  
+                    // validate login
+                    try {
+                      
+                      const otp = await leerInput('Enter the otp code:');
+  
+                      const parametersLogin = {
+                        email: user,
+                        password: pass,
+                        code:otp,
+                        key: idLogin
+                      }
+  
+                      const validateLogin = await AllCustomTasks[task].validateLogin(parametersLogin);
+                      global.CLI_TOKEN = validateLogin.data.token;
+                      
+                      console.clear();
+                      console.log('\n');
+                      console.log('Login successful!!'.green);
+                      console.log('\n');
+                    } catch (error) {
+                      console.log('\n');
+                      console.log('Login error'.red);
+                    }
+                    
+                  } catch (error) {
+
+                    console.log('Plugin error'.red);
+                  }
+                }
+
+                // maximum 5 steps
+                const steps = [];
+                const interactiveMenus = [];
+                const globalVariables = [];
+
+                for (let i = 1; i <= 5; i++) {
+
+                  // Almacena nombre de tarea personalizada
+                  const customTask =  AllCustomTasks[task];
+
+                  // steps almacenados en el archivo de la carpeta cli
+                  steps[i] = customTask[`step${i}`];
+
+                  // variables generales
+                  const stepValues = {}
+                  stepValues[`resultStep${i}`] = '';
+                  stepValues[`taskStep${i}`] = '';
+                  stepValues[`selectMenu${i}`] = '';
+
+                  if (steps[i]) {
+                  
+                    stepValues[`taskStep${i}`] = await steps[i]();
+                    stepValues[`resultStep${i}`] = await leerInput(stepValues[`taskStep${i}`].value);
+                  }
+
+                  // interactive menu en el archivo de la carpeta cli
+                  interactiveMenus[i] = customTask[`interactiveMenu${i}`];
+
+                  if (interactiveMenus[i]) {
+
+                    const paramsMenu = {}
+
+
+                    if (stepValues[`taskStep${i}`].name) {
+                      paramsMenu[stepValues[`taskStep${i}`].name] = stepValues[`resultStep${i}`] ;
+                    }
+  
+                    // si tiene login
+                     if (loginInteractive) {
+                       paramsMenu.token = CLI_TOKEN;
+                     }
+
+                     // paramsMenu.token = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJfaWQiOiI2MjFkMDE4Y2NjMTQ1ZWEwMjM1MmNkNTQiLCJlbWFpbCI6ImNhbWlsby5ib3JyZXJvQGhlbGxvZGVicmFpbi5jb20iLCJleHAiOjE2ODQ5Mzk4Mzl9.pmweA9t_rDsxYFplTRg_Su4xQ9BzMN0jgiAgMq4VUiI';
+
+                     try {
+
+                      // ejecuta función interactiveMenu de la carpeta cli
+                      const functionTask = customTask[`interactiveMenu${i}`];
+
+                      if (functionTask) {
+                        const respMenu = await functionTask(paramsMenu, globalVariables);
+                        stepValues[`selectMenu${i}`] = await inquirerMenu(preguntasPersonalizadas(respMenu.message, respMenu.options));
+
+                        globalVariables[`MENU${i}`] = stepValues[`selectMenu${i}`];
+                      }
+                      
+  
+                    } catch (error) {
+                      console.log(`${error}`.red);
+                    }
+                  }
+
+                }
               }
               break;
           }

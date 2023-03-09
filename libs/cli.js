@@ -152,8 +152,8 @@ module.exports = (process ) => {
                     }
                     
                   } catch (error) {
-
-                    console.log('Plugin error'.red);
+                    console.log(`${error}`.red);
+                    break;
                   }
                 }
 

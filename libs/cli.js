@@ -208,19 +208,32 @@ module.exports = (process ) => {
 
                       if (functionTask) {
                         const respMenu = await functionTask(paramsMenu, globalVariables);
-                        stepValues[`selectMenu${i}`] = await inquirerMenu(preguntasPersonalizadas(respMenu.message, respMenu.options));
 
+                        // Agregar opciones para finalizar y retornar
+                        if(respMenu.options && respMenu.continue) {
+                          respMenu.options.push({ value: 'return', name: '<- Return Menu'});
+                        }
+
+                        stepValues[`selectMenu${i}`] = await inquirerMenu(preguntasPersonalizadas(respMenu.message, respMenu.options));
                         globalVariables[`MENU${i}`] = stepValues[`selectMenu${i}`];
+
+                        // retornar al menu anterior
+                        if (stepValues[`selectMenu${i}`] === 'return') i-=2;
+
+                        // si no trae el parametro para continuar
+                        if (!respMenu.continue) {
+                          console.log('El proceso ha finalizado!!!!!!!');
+                          i-=2;
+                        }
                       }
                       
-  
                     } catch (error) {
                       console.log(`${error}`.red);
-                      break;
+                      i-=1;
                     }
-                  }
+                  } // end if
 
-                }
+                } // end for
               }
               break;
           }

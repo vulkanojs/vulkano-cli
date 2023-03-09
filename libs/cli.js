@@ -216,6 +216,7 @@ module.exports = (process ) => {
   
                     } catch (error) {
                       console.log(`${error}`.red);
+                      break;
                     }
                   }
 

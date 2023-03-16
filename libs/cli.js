@@ -160,7 +160,9 @@ module.exports = (process ) => {
                 // maximum 5 steps
                 const steps = [];
                 const interactiveMenus = [];
-                const globalVariables = [];
+
+                // Dato que contiene todas las opciones que ha elegido el usuario
+                const stepValues = {}
 
                 for (let i = 1; i <= 5; i++) {
 
@@ -171,15 +173,20 @@ module.exports = (process ) => {
                   steps[i] = customTask[`step${i}`];
 
                   // variables generales
-                  const stepValues = {}
+                  
                   stepValues[`resultStep${i}`] = '';
                   stepValues[`taskStep${i}`] = '';
                   stepValues[`selectMenu${i}`] = '';
 
                   if (steps[i]) {
                   
-                    stepValues[`taskStep${i}`] = await steps[i]();
-                    stepValues[`resultStep${i}`] = await leerInput(stepValues[`taskStep${i}`].value);
+                    stepValues[`taskStep${i}`] = await steps[i](stepValues);
+
+                    // Si en el step[i] del cli - dice que el input es requerido
+                    if (stepValues[`taskStep${i}`].required) {
+                      stepValues[`resultStep${i}`] = await leerInput(stepValues[`taskStep${i}`].value);
+                    }
+                    
                   }
 
                   // interactive menu en el archivo de la carpeta cli
@@ -207,7 +214,7 @@ module.exports = (process ) => {
                       const functionTask = customTask[`interactiveMenu${i}`];
 
                       if (functionTask) {
-                        const respMenu = await functionTask(paramsMenu, globalVariables);
+                        const respMenu = await functionTask(paramsMenu, stepValues);
 
                         // Agregar opciones para finalizar y retornar
                         if(respMenu.options && respMenu.continue) {
@@ -215,7 +222,6 @@ module.exports = (process ) => {
                         }
 
                         stepValues[`selectMenu${i}`] = await inquirerMenu(preguntasPersonalizadas(respMenu.message, respMenu.options));
-                        globalVariables[`MENU${i}`] = stepValues[`selectMenu${i}`];
 
                         // retornar al menu anterior
                         if (stepValues[`selectMenu${i}`] === 'return') i-=2;
